@@ -45,7 +45,7 @@
 
                 $.ajax({
                     type: "post",
-                    url: "${path}/upload/uploadAjax",
+                    url: "${path}/upload",
                     data: formData,
                     processData: false, //=> get방식, false => post방식
                     dataType: "text",

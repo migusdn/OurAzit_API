@@ -1,4 +1,7 @@
 package VO;
+
+import lombok.Data;
+
 /**
  * Created by IntelliJ IDEA.
  * User: migusdn
@@ -7,50 +10,11 @@ package VO;
  * GitHub: https://migusdn.github.com/
  * Blog: https://migusdn.tistory.com/
  */
+@Data
 public class ImgVo {
     private String mediaType;
     private String originalFileName;
     private String savedPath;
     private long fileSize;
     private String savedName;
-
-    public String getSavedPath() {
-        return savedPath;
-    }
-
-    public void setSavedPath(String savedPath) {
-        this.savedPath = savedPath;
-    }
-
-    public long getFileSize() {
-        return fileSize;
-    }
-
-    public void setFileSize(long fileSize) {
-        this.fileSize = fileSize;
-    }
-
-    public String getSavedName() {
-        return savedName;
-    }
-
-    public void setSavedName(String savedName) {
-        this.savedName = savedName;
-    }
-
-    public String getOriginalFileName() {
-        return originalFileName;
-    }
-
-    public void setOriginalFileName(String originalFileName) {
-        this.originalFileName = originalFileName;
-    }
-
-    public String getMediaType() {
-        return mediaType;
-    }
-
-    public void setMediaType(String mediaType) {
-        this.mediaType = mediaType;
-    }
 }

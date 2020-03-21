@@ -3,8 +3,6 @@ package Controller;
 import Upload.UploadFileUtils;
 import VO.ImgVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +13,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 /* sourced by :https://doublesprogramming.tistory.com/130*/
@@ -50,13 +47,13 @@ public class UploadController {
         mav.addObject("savedName", savedName);
         return mav;
     }
-    //multiple file upload
+    //file upload controller
     @ResponseBody
     @RequestMapping(value = "upload")
     public List<ImgVo> uploadmul(MultipartHttpServletRequest request) throws Exception {
         List<MultipartFile> fileList = request.getFiles("file");
         String src = request.getParameter("src");
-        System.out.println("src val: "+src);
+        System.out.println(fileList.size());
         /*for(MultipartFile mf : fileList){
             String originalFileName = mf.getOriginalFilename();
             long fileSize = mf.getSize();
@@ -69,7 +66,9 @@ public class UploadController {
                 e.printStackTrace();
             }
         }*/
-        return UploadFileUtils.uploadFile(uploadPath, fileList);
+        List<ImgVo> test = UploadFileUtils.uploadFile(uploadPath, fileList);
+        System.out.println(test.toString());
+        return test;
     }
 
 

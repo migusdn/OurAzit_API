@@ -2,9 +2,7 @@ package Upload;
 
 
 import VO.ImgVo;
-import com.google.gson.Gson;
 import org.imgscalr.Scalr;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -32,26 +30,30 @@ public class UploadFileUtils {
         //ImgVo ArrList 생성
         List<ImgVo> ImgList = null;
         ImgVo Temp;
-
-        for(MultipartFile mf : fileList){
+        String savedPath = calcPath(uploadPath);
+        if (fileList != null)
+            System.out.println(fileList.size());
+        else
+            System.out.println("fileList is null");
+        for (MultipartFile mf : fileList) {
             Temp = new ImgVo();
             String originalFileName = mf.getOriginalFilename();
-
+            System.out.println(originalFileName);
             UUID uuid = UUID.randomUUID();
             // 저장할 파일명 = UUID + 원본이름
             String savedName = uuid.toString() + "_" + originalFileName;
+            String safeFile = uploadPath + savedPath + File.separator + savedName;
             // 업로드할 디렉토리(날짜별 폴더) 생성
-            String savedPath = calcPath(uploadPath);
             long fileSize = mf.getSize();
-            System.out.println("originalFileName: "+ originalFileName);
-            System.out.println("fileSize: "+ fileSize);
-            String safeFile = savedPath;
-            try{
+            System.out.println("originalFileName: " + originalFileName);
+            System.out.println("fileSize: " + fileSize);
+            System.out.println("savedpath: " + safeFile);
+            try {
                 mf.transferTo((new File(safeFile)));
-            }catch (IllegalStateException | IOException e){
+            } catch (IllegalStateException | IOException e) {
                 e.printStackTrace();
             }
-            String formatName = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
+            String formatName = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
             String uploadedFileName = null;
             // 이미지 파일은 썸네일 사용
             if (MediaUtils.getMediaType(formatName) != null) {
@@ -69,7 +71,7 @@ public class UploadFileUtils {
             Temp.setSavedPath(savedPath);
             ImgList.add(Temp);
         }
-
+        System.out.println(ImgList.toString());
         return ImgList;
     }
 
@@ -80,13 +82,13 @@ public class UploadFileUtils {
         // File.separator : 디렉토리 구분자(\\)
         // 연도, ex) \\2017
         String yearPath = File.separator + cal.get(Calendar.YEAR);
-        System.out.println(yearPath);
+        //System.out.println(yearPath);
         // 월, ex) \\2017\\03
         String monthPath = yearPath + File.separator + new DecimalFormat("00").format(cal.get(Calendar.MONTH) + 1);
-        System.out.println(monthPath);
+        //System.out.println(monthPath);
         // 날짜, ex) \\2017\\03\\01
         String datePath = monthPath + File.separator + new DecimalFormat("00").format(cal.get(Calendar.DATE));
-        System.out.println(datePath);
+        //System.out.println(datePath);
         // 디렉토리 생성 메서드 호출
         makeDir(uploadPath, yearPath, monthPath, datePath);
         return datePath;
@@ -95,11 +97,14 @@ public class UploadFileUtils {
     // 디렉토리 생성
     private static void makeDir(String uploadPath, String... paths) {
         // 디렉토리가 존재하면
+        System.out.println("makeDir method access");
         if (new File(paths[paths.length - 1]).exists()){
+            System.out.println("dir is exist");
             return;
         }
         // 디렉토리가 존재하지 않으면
         for (String path : paths) {
+
             //
             File dirPath = new File(uploadPath + path);
             // 디렉토리가 존재하지 않으면
@@ -111,6 +116,7 @@ public class UploadFileUtils {
 
     // 썸네일 생성
     private static String makeThumbnail(String uploadPath, String path, String fileName) throws Exception {
+        System.out.println("makeThumbnail method access");
         // 이미지를 읽기 위한 버퍼
         BufferedImage sourceImg = ImageIO.read(new File(uploadPath + path, fileName));
         // 100픽셀 단위의 썸네일 생성
@@ -127,6 +133,7 @@ public class UploadFileUtils {
 
     // 아이콘 생성
     private static String makeIcon(String uploadPath, String path, String fileName) throws Exception {
+        System.out.println("makeIcon method access");
         // 아이콘의 이름
         String iconName = uploadPath + path + File.separator + fileName;
         // 아이콘 이름을 리턴

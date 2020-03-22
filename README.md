@@ -1,5 +1,5 @@
 # OurAzit
-https://www.ourazit.com/
+https://api.ourazit.com/
 
 OurAzit image Api Server
 

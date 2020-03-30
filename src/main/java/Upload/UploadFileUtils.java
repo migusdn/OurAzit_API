@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -28,7 +29,7 @@ public class UploadFileUtils {
         // 파일명이 aaa.bbb.ccc.jpg일 경우 마지막 마침표를 찾기 위해
 
         //ImgVo ArrList 생성
-        List<ImgVo> ImgList = null;
+        List<ImgVo> ImgList = new ArrayList<ImgVo>();
         ImgVo Temp;
         String savedPath = calcPath(uploadPath);
         if (fileList != null)
@@ -41,7 +42,7 @@ public class UploadFileUtils {
             System.out.println(originalFileName);
             UUID uuid = UUID.randomUUID();
             // 저장할 파일명 = UUID + 원본이름
-            String savedName = uuid.toString() + "_" + originalFileName;
+            String savedName = uuid.toString();
             String safeFile = uploadPath + savedPath + File.separator + savedName;
             // 업로드할 디렉토리(날짜별 폴더) 생성
             long fileSize = mf.getSize();
@@ -71,7 +72,6 @@ public class UploadFileUtils {
             Temp.setSavedPath(savedPath);
             ImgList.add(Temp);
         }
-        System.out.println(ImgList.toString());
         return ImgList;
     }
 

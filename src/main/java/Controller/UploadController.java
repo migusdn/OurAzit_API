@@ -66,9 +66,8 @@ public class UploadController {
                 e.printStackTrace();
             }
         }*/
-        List<ImgVo> test = UploadFileUtils.uploadFile(uploadPath, fileList);
-        System.out.println(test.toString());
-        return test;
+        List<ImgVo> ImgList = UploadFileUtils.uploadFile(uploadPath, fileList);
+        return ImgList;
     }
 
 

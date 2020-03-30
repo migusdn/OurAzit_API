@@ -22,7 +22,7 @@
     </bean>
 
     <bean id="uploadPath" class="java.lang.String">
-        <constructor-arg value="/home/migusdn/upload/"/>
+        <constructor-arg value="/home/tomcat/upload/"/>
     </bean>
 
 

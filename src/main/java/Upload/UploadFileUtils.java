@@ -42,7 +42,7 @@ public class UploadFileUtils {
             System.out.println(originalFileName);
             UUID uuid = UUID.randomUUID();
             // 저장할 파일명 = UUID + 원본이름
-            String savedName = uuid.toString();
+            String savedName = uuid.toString() + "_" + originalFileName;
             String safeFile = uploadPath + savedPath + File.separator + savedName;
             // 업로드할 디렉토리(날짜별 폴더) 생성
             long fileSize = mf.getSize();
@@ -72,6 +72,7 @@ public class UploadFileUtils {
             Temp.setSavedPath(savedPath);
             ImgList.add(Temp);
         }
+        System.out.println(ImgList.toString());
         return ImgList;
     }
 

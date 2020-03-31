@@ -99,7 +99,7 @@ public class UploadFileUtils {
     private static void makeDir(String uploadPath, String... paths) {
         // 디렉토리가 존재하면
         System.out.println("makeDir method access");
-        if (new File(paths[paths.length - 1]).exists()){
+        if (new File(paths[paths.length - 1]).exists()) {
             System.out.println("dir is exist");
             return;
         }

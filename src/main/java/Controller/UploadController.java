@@ -5,6 +5,7 @@ import VO.ImgVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,6 +49,7 @@ public class UploadController {
         return mav;
     }
     //file upload controller
+    @CrossOrigin(origins = "http://ourazit.com, http://localhost")
     @ResponseBody
     @RequestMapping(value = "upload")
     public List<ImgVo> uploadmul(MultipartHttpServletRequest request) throws Exception {

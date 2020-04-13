@@ -49,7 +49,7 @@ public class UploadController {
         return mav;
     }
     //file upload controller
-    @CrossOrigin(origins = "http://ourazit.com, http://localhost")
+    @CrossOrigin(origins = "*")
     @ResponseBody
     @RequestMapping(value = "upload")
     public List<ImgVo> uploadmul(MultipartHttpServletRequest request) throws Exception {

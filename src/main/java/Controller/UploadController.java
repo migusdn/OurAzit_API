@@ -30,17 +30,14 @@ public class UploadController {
     }
 
 
-
-    @RequestMapping(value="/upload/Form")
-    public String Form(){
+    @RequestMapping(value = "/upload/Form")
+    public String Form() {
         return "FormUpload";
     }
 
 
-
-
-    @RequestMapping(value = "/upload/uploadForm", method=RequestMethod.POST)
-    public ModelAndView uploadForm(MultipartFile file, ModelAndView mav) throws  Exception{
+    @RequestMapping(value = "/upload/uploadForm", method = RequestMethod.POST)
+    public ModelAndView uploadForm(MultipartFile file, ModelAndView mav) throws Exception {
         String savedName = file.getOriginalFilename();
         File target = new File(uploadPath, savedName);
         FileCopyUtils.copy(file.getBytes(), target);
@@ -48,8 +45,9 @@ public class UploadController {
         mav.addObject("savedName", savedName);
         return mav;
     }
+
     //file upload controller
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = {"http://ourazit.com", "http://localhost:8080"})
     @ResponseBody
     @RequestMapping(value = "upload")
     public List<ImgVo> uploadmul(MultipartHttpServletRequest request) throws Exception {

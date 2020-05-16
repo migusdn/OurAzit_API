@@ -70,9 +70,13 @@ public class UploadController {
         return ImgList;
     }
 
-
-
-
-
+    @CrossOrigin(origins = {"http://ourazit.com", "http://localhost:8080"})
+    @ResponseBody
+    @RequestMapping(value = "profileupload")
+    public ImgVo profileupload(MultipartHttpServletRequest request) throws Exception {
+        MultipartFile file = request.getFile("file");
+        ImgVo profileImg = UploadFileUtils.profileUpload("profile", file);
+        return profileImg;
+    }
 }
 

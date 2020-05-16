@@ -17,6 +17,50 @@ import java.util.UUID;
 
 public class UploadFileUtils {
 
+    public static ImgVo profileUpload(String uploadPath, MultipartFile mf) throws Exception {
+        System.out.println("profile upload method access");
+
+        //ImgVo ArrList 생성
+        ImgVo Img = new ImgVo();
+        String savedPath = "profile";
+        String originalFileName = mf.getOriginalFilename();
+        System.out.println(originalFileName);
+        UUID uuid = UUID.randomUUID();
+        // 저장할 파일명 = UUID + 원본이름
+        String savedName = uuid.toString() + "_" + originalFileName;
+        String safeFile = uploadPath + File.separator + savedPath + File.separator + savedName;
+        // 업로드할 디렉토리(날짜별 폴더) 생성
+        long fileSize = mf.getSize();
+        System.out.println("originalFileName: " + originalFileName);
+        System.out.println("fileSize: " + fileSize);
+        System.out.println("savedpath: " + safeFile);
+        try {
+            mf.transferTo((new File(safeFile)));
+        } catch (IllegalStateException | IOException e) {
+            e.printStackTrace();
+        }
+        String formatName = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+
+        String uploadedFileName = null;
+        // 이미지 파일은 썸네일 사용
+        if (MediaUtils.getMediaType(formatName) != null) {
+            // 썸네일 생성
+            uploadedFileName = makeThumbnail(uploadPath, savedPath, savedName, 50);
+            // 나머지는 아이콘
+        } else {
+            // 아이콘 생성
+            uploadedFileName = makeIcon(uploadPath, savedPath, savedName);
+        }
+        Img.setFileSize(fileSize);
+        Img.setMediaType(formatName);
+        Img.setOriginalFileName(originalFileName);
+        Img.setSavedName(savedName);
+        Img.setSavedPath(savedPath);
+        System.out.println(Img.toString());
+        return Img;
+    }
+
+
     public static List<ImgVo> uploadFile(String uploadPath, List<MultipartFile> fileList) throws Exception {
         System.out.println("uploadFile method access");
         // UUID 발급
@@ -60,7 +104,7 @@ public class UploadFileUtils {
             // 이미지 파일은 썸네일 사용
             if (MediaUtils.getMediaType(formatName) != null) {
                 // 썸네일 생성
-                uploadedFileName = makeThumbnail(uploadPath, savedPath, savedName);
+                uploadedFileName = makeThumbnail(uploadPath, savedPath, savedName, 100);
                 // 나머지는 아이콘
             } else {
                 // 아이콘 생성
@@ -117,7 +161,7 @@ public class UploadFileUtils {
     }
 
     // 썸네일 생성
-    private static String makeThumbnail(String uploadPath, String path, String fileName) throws Exception {
+    private static String makeThumbnail(String uploadPath, String path, String fileName, int targetSize) throws Exception {
         System.out.println("makeThumbnail method access");
         // 이미지를 읽기 위한 버퍼
         BufferedImage sourceImg = ImageIO.read(new File(uploadPath + path, fileName));

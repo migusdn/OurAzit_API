@@ -52,20 +52,9 @@ public class UploadController {
     @RequestMapping(value = "upload")
     public List<ImgVo> uploadmul(MultipartHttpServletRequest request) throws Exception {
         List<MultipartFile> fileList = request.getFiles("file");
-        String src = request.getParameter("src");
+        String src = request.getParameter("type");
         System.out.println(fileList.size());
-        /*for(MultipartFile mf : fileList){
-            String originalFileName = mf.getOriginalFilename();
-            long fileSize = mf.getSize();
-            System.out.println("originalFileName: "+ originalFileName);
-            System.out.println("fileSize: "+ fileSize);
-            String safeFile = uploadPath+System.currentTimeMillis()+originalFileName;
-            try{
-                mf.transferTo((new File(safeFile)));
-            }catch (IllegalStateException | IOException e){
-                e.printStackTrace();
-            }
-        }*/
+
         List<ImgVo> ImgList = UploadFileUtils.uploadFile(uploadPath, fileList);
         return ImgList;
     }
@@ -75,7 +64,7 @@ public class UploadController {
     @RequestMapping(value = "profileupload")
     public ImgVo profileupload(MultipartHttpServletRequest request) throws Exception {
         MultipartFile file = request.getFile("file");
-        ImgVo profileImg = UploadFileUtils.profileUpload("profile", file);
+        ImgVo profileImg = UploadFileUtils.profileUpload(uploadPath, file);
         return profileImg;
     }
 }
